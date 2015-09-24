@@ -1,0 +1,14 @@
+PODS:
+  - TableViewDragger (0.0.1)
+
+DEPENDENCIES:
+  - TableViewDragger (from `..`)
+
+EXTERNAL SOURCES:
+  TableViewDragger:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  TableViewDragger: e782d7911839efcd3c82e47b99be0522ae682ae2
+
+COCOAPODS: 0.38.2
