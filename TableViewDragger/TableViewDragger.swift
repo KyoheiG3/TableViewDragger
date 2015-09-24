@@ -18,11 +18,9 @@ import UIKit
     optional func dragger(dragger: TableViewDragger, didEndDraggingAtIndexPath indexPath: NSIndexPath)
 }
 
-protocol TableViewDraggerDataSource: class {
-    func dragger(dragger: TableViewDragger, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell?
-    func dragger(dragger: TableViewDragger, cellCoverAtRect rect: CGRect) -> UIView?
-    func dragger(dragger: TableViewDragger, removeCoverView view: UIView)
-    func dragger(dragger: TableViewDragger, indexPathForDragAtIndexPath indexPath: NSIndexPath) -> NSIndexPath
+@objc protocol TableViewDraggerDataSource: class {
+    optional func dragger(dragger: TableViewDragger, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell?
+    optional func dragger(dragger: TableViewDragger, indexPathForDragAtIndexPath indexPath: NSIndexPath) -> NSIndexPath
 }
 
 class TableViewDragger: NSObject {
@@ -76,11 +74,10 @@ class TableViewDragger: NSObject {
     let longPressGesture = UILongPressGestureRecognizer()
     let panGesture = UIPanGestureRecognizer()
     weak var delegate: TableViewDraggerDelegate?
-    weak var dataSoutce: TableViewDraggerDataSource?
+    weak var dataSource: TableViewDraggerDataSource?
     weak var tableView: UITableView?
     private var draggingCell: TableViewDraggerCell?
     private var draggingVerticalMotion: VerticalMotion?
-    private var coverView: UIView?
     private var displayLink: CADisplayLink?
     private var targetClipsToBounds = true
     
@@ -191,28 +188,13 @@ class TableViewDragger: NSObject {
             return
         }
         
-        if let cell = tableView.cellForRowAtIndexPath(draggingCell.dropIndexPath) {
-            coverForCell(cell)
-        }
-        
         if delegate?.dragger(self, moveDraggingAtIndexPath: draggingCell.dropIndexPath, toIndexPath: indexPath) == true {
             draggingCell.dropIndexPath = indexPath
         }
     }
     
-    private func coverForCell(cell: UITableViewCell) {
-        cell.hidden = originCellHidden
-        
-        if coverView == nil {
-            coverView = dataSoutce?.dragger(self, cellCoverAtRect: cell.contentView.frame)
-        }
-        if let view = coverView {
-            cell.addSubview(view)
-        }
-    }
-    
     private func copiedCellAtIndexPath(indexPath: NSIndexPath, retryCount: Int) -> UITableViewCell? {
-        var copiedCell: UITableViewCell? = dataSoutce?.dragger(self, cellForRowAtIndexPath: indexPath)
+        var copiedCell: UITableViewCell? = dataSource?.dragger?(self, cellForRowAtIndexPath: indexPath)
         if copiedCell == nil {
             if let table = tableView {
                 copiedCell = table.dataSource?.tableView(table, cellForRowAtIndexPath: indexPath)
@@ -258,31 +240,29 @@ class TableViewDragger: NSObject {
         displayLink?.paused = true
         
         var dragIndexPath = indexPath
-        if let dataSource = dataSoutce {
-            let path = dataSource.dragger(self, indexPathForDragAtIndexPath: indexPath)
-            dragIndexPath = path
+        if let dataSource = dataSource {
+            if let path = dataSource.dragger?(self, indexPathForDragAtIndexPath: indexPath) {
+                dragIndexPath = path
+            }
         }
         
         delegate?.dragger?(self, willBeginDraggingAtIndexPath: dragIndexPath)
         
-        if let table = tableView {
-            let actualCell = table.cellForRowAtIndexPath(dragIndexPath)
-            let point = gesture.locationInView(actualCell)
-            if let cell = actualCell {
-                coverForCell(cell)
-            }
+        if let tableView = tableView {
+            let actualCell = tableView.cellForRowAtIndexPath(dragIndexPath)
             
-            if let draggedCell = draggedCell(table, indexPath: dragIndexPath) {
+            if let draggedCell = draggedCell(tableView, indexPath: dragIndexPath) {
+                let point = gesture.locationInView(actualCell)
                 draggedCell.offset = point
                 draggedCell.transformToPoint(point)
-                draggedCell.location = gesture.locationInView(table)
-                table.addSubview(draggedCell)
+                draggedCell.location = gesture.locationInView(tableView)
+                tableView.addSubview(draggedCell)
                 
                 draggingCell = draggedCell
             }
             
-            targetClipsToBounds = table.clipsToBounds
-            table.clipsToBounds = false
+            targetClipsToBounds = tableView.clipsToBounds
+            tableView.clipsToBounds = false
         }
         
         delegate?.dragger?(self, didBeginDraggingAtIndexPath: indexPath)
@@ -313,10 +293,6 @@ class TableViewDragger: NSObject {
             if let draggingCell = draggingCell {
                 delegate?.dragger?(self, willEndDraggingAtIndexPath: draggingCell.dropIndexPath)
                 
-                if let view = coverView {
-                    dataSoutce?.dragger(self, removeCoverView: view)
-                }
-                
                 let targetRect = tableView.rectForRowAtIndexPath(draggingCell.dropIndexPath)
                 let center = CGPoint(x: targetRect.width / 2, y: targetRect.origin.y + (targetRect.height / 2))
                 
@@ -329,8 +305,6 @@ class TableViewDragger: NSObject {
                     
                     tableView.clipsToBounds = self.targetClipsToBounds
                     
-                    self.coverView?.removeFromSuperview()
-                    self.coverView = nil
                     self.draggingCell = nil
                 }
             }
