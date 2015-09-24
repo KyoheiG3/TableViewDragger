@@ -126,7 +126,7 @@ class TableViewDraggerCell: UIScrollView {
 
 extension TableViewDraggerCell: UIScrollViewDelegate {
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
-        return self.zoomingView
+        return zoomingView
     }
 }
 
