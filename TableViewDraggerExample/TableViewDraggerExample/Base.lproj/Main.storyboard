@@ -86,7 +86,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ba6-dX-4up" firstAttribute="centerY" secondItem="C7z-hD-tE5" secondAttribute="centerY" id="5l5-pm-l9o"/>
                             <constraint firstItem="ba6-dX-4up" firstAttribute="width" secondItem="C7z-hD-tE5" secondAttribute="width" id="Ms2-nD-QNZ"/>
