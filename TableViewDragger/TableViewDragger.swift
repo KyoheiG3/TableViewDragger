@@ -9,8 +9,10 @@
 import UIKit
 
 @objc public protocol TableViewDraggerDelegate: class {
+    /// If allow movement of cell, please return `true`. require a call to `moveRowAtIndexPath:toIndexPath:` of UITableView and rearranged of data.
     func dragger(dragger: TableViewDragger, moveDraggingAtIndexPath indexPath: NSIndexPath, newIndexPath: NSIndexPath) -> Bool
     
+    /// If allow dragging of cell, prease return `true`.
     optional func dragger(dragger: TableViewDragger, shouldDragAtIndexPath indexPath: NSIndexPath) -> Bool
     optional func dragger(dragger: TableViewDragger, willBeginDraggingAtIndexPath indexPath: NSIndexPath)
     optional func dragger(dragger: TableViewDragger, didBeginDraggingAtIndexPath indexPath: NSIndexPath)
@@ -19,7 +21,9 @@ import UIKit
 }
 
 @objc public protocol TableViewDraggerDataSource: class {
+    /// Return any cell if want to change the cell in drag.
     optional func dragger(dragger: TableViewDragger, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell?
+    /// Return the indexPath if want to change the indexPath to start drag.
     optional func dragger(dragger: TableViewDragger, indexPathForDragAtIndexPath indexPath: NSIndexPath) -> NSIndexPath
 }
 
@@ -32,10 +36,15 @@ public class TableViewDragger: NSObject {
     weak var targetTableView: UITableView?
     private var draggingVerticalMotion: UIScrollView.DragMotion?
     
+    /// It will be `true` if want to hide the original cell.
     public var originCellHidden: Bool = true
+    /// Zoom scale of cell in drag.
     public var cellZoomScale: CGFloat = 1
+    /// Alpha of cell in drag.
     public var cellAlpha: CGFloat = 1
+    /// Opacity of cell shadow in drag.
     public var cellShadowOpacity: Float = 0.4
+    /// Velocity of auto scroll in drag.
     public var scrollVelocity: CGFloat = 1
     public weak var delegate: TableViewDraggerDelegate?
     public weak var dataSource: TableViewDraggerDataSource?
@@ -43,6 +52,7 @@ public class TableViewDragger: NSObject {
         return targetTableView
     }
     
+    /// `UITableView` want to drag.
     public init(tableView: UITableView) {
         super.init()
         
