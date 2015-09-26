@@ -1,13 +1,15 @@
 # TableViewDragger
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Version](https://img.shields.io/cocoapods/v/PagingView.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
-[![License](https://img.shields.io/cocoapods/l/PagingView.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
-[![Platform](https://img.shields.io/cocoapods/p/PagingView.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
+[![Version](https://img.shields.io/cocoapods/v/TableViewDragger.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
+[![License](https://img.shields.io/cocoapods/l/TableViewDragger.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
+[![Platform](https://img.shields.io/cocoapods/p/TableViewDragger.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
 
 ![Demo](https://kyoheig3.github.io/TableViewDragger/images/dragger.gif)
 
 A cells of UITableView can be rearranged by drag and drop.
+
+#### [Appetize's Demo](https://appetize.io/app/p92e7wrmfkq32t473fuavn8bmm)
 
 ## Requirements
 * swift 2.0
