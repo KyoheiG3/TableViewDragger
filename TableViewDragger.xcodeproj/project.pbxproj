@@ -10,6 +10,7 @@
 		C7AC952E1BB4166F0044E1BA /* TableViewDragger.h in Headers */ = {isa = PBXBuildFile; fileRef = C7AC952D1BB4166F0044E1BA /* TableViewDragger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C7AC95361BB416810044E1BA /* TableViewDragger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95351BB416810044E1BA /* TableViewDragger.swift */; settings = {ASSET_TAGS = (); }; };
 		C7AC95381BB417660044E1BA /* TableViewDraggerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95371BB417660044E1BA /* TableViewDraggerCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C7E9476F1BB9A75500A89906 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E9476E1BB9A75500A89906 /* UIScrollViewExtension.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		C7AC952F1BB4166F0044E1BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7AC95351BB416810044E1BA /* TableViewDragger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDragger.swift; sourceTree = "<group>"; };
 		C7AC95371BB417660044E1BA /* TableViewDraggerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDraggerCell.swift; sourceTree = "<group>"; };
+		C7E9476E1BB9A75500A89906 /* UIScrollViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 				C7AC952D1BB4166F0044E1BA /* TableViewDragger.h */,
 				C7AC95351BB416810044E1BA /* TableViewDragger.swift */,
 				C7AC95371BB417660044E1BA /* TableViewDraggerCell.swift */,
+				C7E9476E1BB9A75500A89906 /* UIScrollViewExtension.swift */,
 				C7AC952F1BB4166F0044E1BA /* Info.plist */,
 			);
 			path = TableViewDragger;
@@ -139,6 +142,7 @@
 			files = (
 				C7AC95381BB417660044E1BA /* TableViewDraggerCell.swift in Sources */,
 				C7AC95361BB416810044E1BA /* TableViewDragger.swift in Sources */,
+				C7E9476F1BB9A75500A89906 /* UIScrollViewExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +292,7 @@
 				C7AC95341BB4166F0044E1BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
