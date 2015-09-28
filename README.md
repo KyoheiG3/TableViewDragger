@@ -7,7 +7,14 @@
 
 ![Demo](https://kyoheig3.github.io/TableViewDragger/images/dragger.gif)
 
-A cells of UITableView can be rearranged by drag and drop.
+This is a demo that uses a `TableViewDragger`.  
+
+Interactions like Facebook post also possible.  
+The following is a gif of the original Facebook post.
+
+![Facebook](https://kyoheig3.github.io/TableViewDragger/images/facebook.gif)
+
+If you change the size and animation of UITableView of cell, it is also possible similar UI to Facebook post.
 
 #### [Appetize's Demo](https://appetize.io/app/p92e7wrmfkq32t473fuavn8bmm)
 
