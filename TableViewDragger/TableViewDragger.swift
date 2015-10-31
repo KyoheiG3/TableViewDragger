@@ -315,3 +315,10 @@ extension TableViewDragger: UIGestureRecognizerDelegate {
         return gestureRecognizer == panGesture || otherGestureRecognizer == panGesture || gestureRecognizer == longPressGesture || otherGestureRecognizer == longPressGesture
     }
 }
+
+extension UIScrollView {
+    enum DragMotion {
+        case Up
+        case Down
+    }
+}

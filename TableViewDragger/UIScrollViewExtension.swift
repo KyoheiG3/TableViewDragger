@@ -9,11 +9,6 @@
 import UIKit
 
 extension UIScrollView {
-    enum DragMotion {
-        case Up
-        case Down
-    }
-    
     struct ScrollRect {
         private let maxScrollDistance: CGFloat = 10
         
