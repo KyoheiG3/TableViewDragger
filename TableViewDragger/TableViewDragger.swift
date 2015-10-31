@@ -83,25 +83,26 @@ public class TableViewDragger: NSObject {
         let point           = draggingVerticalMotion == .Up ? topPoint : bottomPoint
         
         if let targetIndexPath = tableView.indexPathForRowAtPoint(point) {
-            let cell = tableView.cellForRowAtIndexPath(targetIndexPath)
-            if cell == nil {
+            if tableView.cellForRowAtIndexPath(targetIndexPath) == nil {
                 return draggingCell.dropIndexPath
             }
             
             let targetRect = tableView.rectForRowAtIndexPath(targetIndexPath)
             let targetCenterY = targetRect.origin.y + (targetRect.height / 2)
             
-            switch draggingVerticalMotion {
-            case .Some(.Up):
+            guard let motion = draggingVerticalMotion else {
+                return draggingCell.dropIndexPath
+            }
+            
+            switch motion {
+            case .Up:
                 if (targetCenterY > point.y && draggingCell.dropIndexPath.compare(targetIndexPath) == .OrderedDescending) {
                     return targetIndexPath
                 }
-            case .Some(.Down):
+            case .Down:
                 if (targetCenterY < point.y && draggingCell.dropIndexPath.compare(targetIndexPath) == .OrderedAscending) {
                     return targetIndexPath
                 }
-            default:
-                break;
             }
         }
         
