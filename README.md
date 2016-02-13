@@ -25,7 +25,7 @@ If you change the size and animation of UITableView of cell, it is also possible
 
 ### iOS 8+
 
-#### Cocoapods
+#### CocoaPods
 
 Add the following to your `Podfile`:
 
