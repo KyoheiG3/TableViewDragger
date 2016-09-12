@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/TableViewDragger.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
 [![Platform](https://img.shields.io/cocoapods/p/TableViewDragger.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
 
-![Demo](https://github.com/KyoheiG3/assets/blob/master/TableViewDragger/images/dragger.gif)
+![Demo](https://github.com/KyoheiG3/assets/blob/master/TableViewDragger/dragger.gif)
 
 This is a demo that uses a `TableViewDragger`.  
 
