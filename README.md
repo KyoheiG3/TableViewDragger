@@ -12,7 +12,9 @@ This is a demo that uses a `TableViewDragger`.
 #### [Appetize's Demo](https://appetize.io/app/p92e7wrmfkq32t473fuavn8bmm)
 
 ## Requirements
-* swift 2.3
+
+- Swift 3.0
+- iOS 7.0 or later
 
 ## How to Install TableViewDragger
 
