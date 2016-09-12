@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C7AC952E1BB4166F0044E1BA /* TableViewDragger.h in Headers */ = {isa = PBXBuildFile; fileRef = C7AC952D1BB4166F0044E1BA /* TableViewDragger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C7AC95361BB416810044E1BA /* TableViewDragger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95351BB416810044E1BA /* TableViewDragger.swift */; settings = {ASSET_TAGS = (); }; };
-		C7AC95381BB417660044E1BA /* TableViewDraggerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95371BB417660044E1BA /* TableViewDraggerCell.swift */; settings = {ASSET_TAGS = (); }; };
-		C7E9476F1BB9A75500A89906 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E9476E1BB9A75500A89906 /* UIScrollViewExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		C7AC95361BB416810044E1BA /* TableViewDragger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95351BB416810044E1BA /* TableViewDragger.swift */; };
+		C7AC95381BB417660044E1BA /* TableViewDraggerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95371BB417660044E1BA /* TableViewDraggerCell.swift */; };
+		C7E9476F1BB9A75500A89906 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E9476E1BB9A75500A89906 /* UIScrollViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +105,7 @@
 				TargetAttributes = {
 					C7AC95291BB4166F0044E1BA = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -253,6 +254,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -270,6 +272,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.TableViewDragger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};

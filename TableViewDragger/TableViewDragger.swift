@@ -60,11 +60,11 @@ public class TableViewDragger: NSObject {
         tableView.addGestureRecognizer(longPressGesture)
         tableView.addGestureRecognizer(panGesture)
         
-        longPressGesture.addTarget(self, action: Selector("longPressGestureAction:"))
+        longPressGesture.addTarget(self, action: #selector(TableViewDragger.longPressGestureAction(_:)))
         longPressGesture.delegate = self
         longPressGesture.allowableMovement = 5.0
         
-        panGesture.addTarget(self, action: Selector("panGestureAction:"))
+        panGesture.addTarget(self, action: #selector(TableViewDragger.panGestureAction(_:)))
         panGesture.delegate = self
         panGesture.maximumNumberOfTouches = 1
     }
@@ -163,7 +163,7 @@ public class TableViewDragger: NSObject {
     
     func draggingBegin(gesture: UIGestureRecognizer, indexPath: NSIndexPath) {
         displayLink?.invalidate()
-        displayLink = UIScreen.mainScreen().displayLinkWithTarget(self, selector: Selector("displayDidRefresh:"))
+        displayLink = UIScreen.mainScreen().displayLinkWithTarget(self, selector: #selector(TableViewDragger.displayDidRefresh(_:)))
         displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
         displayLink?.paused = true
         

@@ -5,21 +5,14 @@
 [![License](https://img.shields.io/cocoapods/l/TableViewDragger.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
 [![Platform](https://img.shields.io/cocoapods/p/TableViewDragger.svg?style=flat)](http://cocoadocs.org/docsets/TableViewDragger)
 
-![Demo](https://kyoheig3.github.io/TableViewDragger/images/dragger.gif)
+![Demo](https://github.com/KyoheiG3/assets/blob/master/TableViewDragger/images/dragger.gif)
 
 This is a demo that uses a `TableViewDragger`.  
-
-Interactions like Facebook post also possible.  
-The following is a gif of the original Facebook post.
-
-![Facebook](https://kyoheig3.github.io/TableViewDragger/images/facebook.gif)
-
-If you change the size and animation of UITableView of cell, it is also possible similar UI to Facebook post.
 
 #### [Appetize's Demo](https://appetize.io/app/p92e7wrmfkq32t473fuavn8bmm)
 
 ## Requirements
-* swift 2.0
+* swift 2.3
 
 ## How to Install TableViewDragger
 
