@@ -10,45 +10,45 @@ import UIKit
 
 @objc public protocol TableViewDraggerDelegate: class {
     /// If allow movement of cell, please return `true`. require a call to `moveRowAtIndexPath:toIndexPath:` of UITableView and rearranged of data.
-    func dragger(dragger: TableViewDragger, moveDraggingAtIndexPath indexPath: NSIndexPath, newIndexPath: NSIndexPath) -> Bool
+    func dragger(_ dragger: TableViewDragger, moveDraggingAtIndexPath indexPath: IndexPath, newIndexPath: IndexPath) -> Bool
     
     /// If allow dragging of cell, prease return `true`.
-    optional func dragger(dragger: TableViewDragger, shouldDragAtIndexPath indexPath: NSIndexPath) -> Bool
-    optional func dragger(dragger: TableViewDragger, willBeginDraggingAtIndexPath indexPath: NSIndexPath)
-    optional func dragger(dragger: TableViewDragger, didBeginDraggingAtIndexPath indexPath: NSIndexPath)
-    optional func dragger(dragger: TableViewDragger, willEndDraggingAtIndexPath indexPath: NSIndexPath)
-    optional func dragger(dragger: TableViewDragger, didEndDraggingAtIndexPath indexPath: NSIndexPath)
+    @objc optional func dragger(_ dragger: TableViewDragger, shouldDragAtIndexPath indexPath: IndexPath) -> Bool
+    @objc optional func dragger(_ dragger: TableViewDragger, willBeginDraggingAtIndexPath indexPath: IndexPath)
+    @objc optional func dragger(_ dragger: TableViewDragger, didBeginDraggingAtIndexPath indexPath: IndexPath)
+    @objc optional func dragger(_ dragger: TableViewDragger, willEndDraggingAtIndexPath indexPath: IndexPath)
+    @objc optional func dragger(_ dragger: TableViewDragger, didEndDraggingAtIndexPath indexPath: IndexPath)
 }
 
 @objc public protocol TableViewDraggerDataSource: class {
     /// Return any cell if want to change the cell in drag.
-    optional func dragger(dragger: TableViewDragger, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell?
+    @objc optional func dragger(_ dragger: TableViewDragger, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell?
     /// Return the indexPath if want to change the indexPath to start drag.
-    optional func dragger(dragger: TableViewDragger, indexPathForDragAtIndexPath indexPath: NSIndexPath) -> NSIndexPath
+    @objc optional func dragger(_ dragger: TableViewDragger, indexPathForDragAtIndexPath indexPath: IndexPath) -> IndexPath
 }
 
-public class TableViewDragger: NSObject {
+open class TableViewDragger: NSObject {
     let longPressGesture = UILongPressGestureRecognizer()
     let panGesture = UIPanGestureRecognizer()
     var draggingCell: TableViewDraggerCell?
     var displayLink: CADisplayLink?
     var targetClipsToBounds = true
     weak var targetTableView: UITableView?
-    private var draggingVerticalMotion: UIScrollView.DragMotion?
+    fileprivate var draggingVerticalMotion: UIScrollView.DragMotion?
     
     /// It will be `true` if want to hide the original cell.
-    public var originCellHidden: Bool = true
+    open var originCellHidden: Bool = true
     /// Zoom scale of cell in drag.
-    public var cellZoomScale: CGFloat = 1
+    open var cellZoomScale: CGFloat = 1
     /// Alpha of cell in drag.
-    public var cellAlpha: CGFloat = 1
+    open var cellAlpha: CGFloat = 1
     /// Opacity of cell shadow in drag.
-    public var cellShadowOpacity: Float = 0.4
+    open var cellShadowOpacity: Float = 0.4
     /// Velocity of auto scroll in drag.
-    public var scrollVelocity: CGFloat = 1
-    public weak var delegate: TableViewDraggerDelegate?
-    public weak var dataSource: TableViewDraggerDataSource?
-    public var tableView: UITableView? {
+    open var scrollVelocity: CGFloat = 1
+    open weak var delegate: TableViewDraggerDelegate?
+    open weak var dataSource: TableViewDraggerDataSource?
+    open var tableView: UITableView? {
         return targetTableView
     }
     
@@ -74,62 +74,62 @@ public class TableViewDragger: NSObject {
         targetTableView?.removeGestureRecognizer(panGesture)
     }
     
-    func targetIndexPath(tableView: UITableView, draggingCell: TableViewDraggerCell) -> NSIndexPath {
+    func targetIndexPath(_ tableView: UITableView, draggingCell: TableViewDraggerCell) -> IndexPath {
         let location        = draggingCell.location
         let offsetY         = (draggingCell.viewHeight / 2) + 2
         let offsetX         = tableView.center.x
         let topPoint        = CGPoint(x: offsetX, y: location.y - offsetY)
         let bottomPoint     = CGPoint(x: offsetX, y: location.y + offsetY)
-        let point           = draggingVerticalMotion == .Up ? topPoint : bottomPoint
+        let point           = draggingVerticalMotion == .up ? topPoint : bottomPoint
         
-        if let targetIndexPath = tableView.indexPathForRowAtPoint(point) {
-            if tableView.cellForRowAtIndexPath(targetIndexPath) == nil {
-                return draggingCell.dropIndexPath
+        if let targetIndexPath = tableView.indexPathForRow(at: point) {
+            if tableView.cellForRow(at: targetIndexPath) == nil {
+                return draggingCell.dropIndexPath as IndexPath
             }
             
-            let targetRect = tableView.rectForRowAtIndexPath(targetIndexPath)
+            let targetRect = tableView.rectForRow(at: targetIndexPath)
             let targetCenterY = targetRect.origin.y + (targetRect.height / 2)
             
             guard let motion = draggingVerticalMotion else {
-                return draggingCell.dropIndexPath
+                return draggingCell.dropIndexPath as IndexPath
             }
             
             switch motion {
-            case .Up:
-                if (targetCenterY > point.y && draggingCell.dropIndexPath.compare(targetIndexPath) == .OrderedDescending) {
+            case .up:
+                if (targetCenterY > point.y && (draggingCell.dropIndexPath as NSIndexPath).compare(targetIndexPath) == .orderedDescending) {
                     return targetIndexPath
                 }
-            case .Down:
-                if (targetCenterY < point.y && draggingCell.dropIndexPath.compare(targetIndexPath) == .OrderedAscending) {
+            case .down:
+                if (targetCenterY < point.y && (draggingCell.dropIndexPath as NSIndexPath).compare(targetIndexPath) == .orderedAscending) {
                     return targetIndexPath
                 }
             }
         }
         
-        return draggingCell.dropIndexPath
+        return draggingCell.dropIndexPath as IndexPath
     }
     
-    func dragCell(tableView: UITableView, draggingCell: TableViewDraggerCell) {
+    func dragCell(_ tableView: UITableView, draggingCell: TableViewDraggerCell) {
         let indexPath = targetIndexPath(tableView, draggingCell: draggingCell)
-        if draggingCell.dropIndexPath.compare(indexPath) == .OrderedSame {
+        if (draggingCell.dropIndexPath as NSIndexPath).compare(indexPath) == .orderedSame {
             return
         }
         
-        if let cell = tableView.cellForRowAtIndexPath(draggingCell.dropIndexPath) {
-            cell.hidden = originCellHidden
+        if let cell = tableView.cellForRow(at: draggingCell.dropIndexPath as IndexPath) {
+            cell.isHidden = originCellHidden
         }
-        if delegate?.dragger(self, moveDraggingAtIndexPath: draggingCell.dropIndexPath, newIndexPath: indexPath) == true {
+        if delegate?.dragger(self, moveDraggingAtIndexPath: draggingCell.dropIndexPath as IndexPath, newIndexPath: indexPath) == true {
             draggingCell.dropIndexPath = indexPath
         }
     }
     
-    func copiedCellAtIndexPath(indexPath: NSIndexPath, retryCount: Int) -> UITableViewCell? {
+    func copiedCellAtIndexPath(_ indexPath: IndexPath, retryCount: Int) -> UITableViewCell? {
         var copiedCell = dataSource?.dragger?(self, cellForRowAtIndexPath: indexPath)
         if copiedCell == nil, let tableView = targetTableView {
-            copiedCell = tableView.dataSource?.tableView(tableView, cellForRowAtIndexPath: indexPath)
+            copiedCell = tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
         }
         
-        if copiedCell?.hidden == true {
+        if copiedCell?.isHidden == true {
             if retryCount > 10 {
                 return nil
             }
@@ -140,15 +140,15 @@ public class TableViewDragger: NSObject {
         return copiedCell
     }
     
-    func draggedCell(tableView: UITableView, indexPath: NSIndexPath) -> TableViewDraggerCell? {
+    func draggedCell(_ tableView: UITableView, indexPath: IndexPath) -> TableViewDraggerCell? {
         guard let copiedCell = copiedCellAtIndexPath(indexPath, retryCount: 0) else {
             return nil
         }
         
-        let cellRect = tableView.rectForRowAtIndexPath(indexPath)
+        let cellRect = tableView.rectForRow(at: indexPath)
         copiedCell.bounds.size = cellRect.size
         
-        if let height = tableView.delegate?.tableView?(tableView, heightForRowAtIndexPath: indexPath) {
+        if let height = tableView.delegate?.tableView?(tableView, heightForRowAt: indexPath) {
             copiedCell.bounds.size.height = height
         }
         
@@ -161,24 +161,24 @@ public class TableViewDragger: NSObject {
         return cell
     }
     
-    func draggingBegin(gesture: UIGestureRecognizer, indexPath: NSIndexPath) {
+    func draggingBegin(_ gesture: UIGestureRecognizer, indexPath: IndexPath) {
         displayLink?.invalidate()
-        displayLink = UIScreen.mainScreen().displayLinkWithTarget(self, selector: #selector(TableViewDragger.displayDidRefresh(_:)))
-        displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
-        displayLink?.paused = true
+        displayLink = UIScreen.main.displayLink(withTarget: self, selector: #selector(TableViewDragger.displayDidRefresh(_:)))
+        displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
+        displayLink?.isPaused = true
         
         let dragIndexPath = dataSource?.dragger?(self, indexPathForDragAtIndexPath: indexPath) ?? indexPath
         delegate?.dragger?(self, willBeginDraggingAtIndexPath: dragIndexPath)
         
         if let tableView = targetTableView {
-            let actualCell = tableView.cellForRowAtIndexPath(dragIndexPath)
-            actualCell?.hidden = originCellHidden
+            let actualCell = tableView.cellForRow(at: dragIndexPath)
+            actualCell?.isHidden = originCellHidden
             
             if let draggedCell = draggedCell(tableView, indexPath: dragIndexPath) {
-                let point = gesture.locationInView(actualCell)
+                let point = gesture.location(in: actualCell)
                 draggedCell.offset = point
                 draggedCell.transformToPoint(point)
-                draggedCell.location = gesture.locationInView(tableView)
+                draggedCell.location = gesture.location(in: tableView)
                 tableView.addSubview(draggedCell)
                 
                 draggingCell = draggedCell
@@ -191,15 +191,15 @@ public class TableViewDragger: NSObject {
         delegate?.dragger?(self, didBeginDraggingAtIndexPath: indexPath)
     }
     
-    private func draggingChanged(gesture: UIGestureRecognizer, vertical: UIScrollView.DragMotion?) {
-        guard let tableView = targetTableView, draggingCell = draggingCell else {
+    fileprivate func draggingChanged(_ gesture: UIGestureRecognizer, vertical: UIScrollView.DragMotion?) {
+        guard let tableView = targetTableView, let draggingCell = draggingCell else {
             return
         }
         
-        draggingCell.location = gesture.locationInView(tableView)
+        draggingCell.location = gesture.location(in: tableView)
         
         if let motion = tableView.autoScrollMotion(draggingCell.absoluteCenterForScrollView(tableView)) {
-            displayLink?.paused = false
+            displayLink?.isPaused = false
             draggingVerticalMotion = motion
         } else {
             draggingVerticalMotion = vertical
@@ -208,23 +208,23 @@ public class TableViewDragger: NSObject {
         dragCell(tableView, draggingCell: draggingCell)
     }
     
-    func draggingEnded(gesture: UIGestureRecognizer) {
+    func draggingEnded(_ gesture: UIGestureRecognizer) {
         displayLink?.invalidate()
         
-        guard let tableView = targetTableView, draggingCell = draggingCell else {
+        guard let tableView = targetTableView, let draggingCell = draggingCell else {
             return
         }
         
-        delegate?.dragger?(self, willEndDraggingAtIndexPath: draggingCell.dropIndexPath)
+        delegate?.dragger?(self, willEndDraggingAtIndexPath: draggingCell.dropIndexPath as IndexPath)
         
-        let targetRect = tableView.rectForRowAtIndexPath(draggingCell.dropIndexPath)
+        let targetRect = tableView.rectForRow(at: draggingCell.dropIndexPath as IndexPath)
         let center = CGPoint(x: targetRect.width / 2, y: targetRect.origin.y + (targetRect.height / 2))
         
         draggingCell.drop(center) {
             self.delegate?.dragger?(self, didEndDraggingAtIndexPath: draggingCell.dropIndexPath)
             
-            if let cell = tableView.cellForRowAtIndexPath(draggingCell.dropIndexPath) {
-                cell.hidden = false
+            if let cell = tableView.cellForRow(at: draggingCell.dropIndexPath) {
+                cell.isHidden = false
             }
             
             tableView.clipsToBounds = self.targetClipsToBounds
@@ -236,8 +236,8 @@ public class TableViewDragger: NSObject {
 
 // MARK: - Action Methods
 private extension TableViewDragger {
-    dynamic func displayDidRefresh(displayLink: CADisplayLink) {
-        guard let tableView = targetTableView, draggingCell = draggingCell else {
+    dynamic func displayDidRefresh(_ displayLink: CADisplayLink) {
+        guard let tableView = targetTableView, let draggingCell = draggingCell else {
             return
         }
         
@@ -246,7 +246,7 @@ private extension TableViewDragger {
         if let motion = tableView.autoScrollMotion(center) {
             draggingVerticalMotion = motion
         } else {
-            displayLink.paused = true
+            displayLink.isPaused = true
         }
         
         let distance = UIScrollView.ScrollRect(inRect: tableView.bounds).scrollDistance(center) / scrollVelocity
@@ -254,52 +254,52 @@ private extension TableViewDragger {
         
         dragCell(tableView, draggingCell: draggingCell)
         
-        draggingCell.location = panGesture.locationInView(tableView)
+        draggingCell.location = panGesture.location(in: tableView)
     }
     
-    dynamic func longPressGestureAction(gesture: UILongPressGestureRecognizer) {
+    dynamic func longPressGestureAction(_ gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
-        case .Began:
-            targetTableView?.scrollEnabled = false
+        case .began:
+            targetTableView?.isScrollEnabled = false
             
-            let point = gesture.locationInView(targetTableView)
-            if let path = targetTableView?.indexPathForRowAtPoint(point) {
+            let point = gesture.location(in: targetTableView)
+            if let path = targetTableView?.indexPathForRow(at: point) {
                 draggingBegin(gesture, indexPath: path)
             }
-        case .Ended, .Cancelled:
+        case .ended, .cancelled:
             draggingEnded(gesture)
             
-            targetTableView?.scrollEnabled = true
+            targetTableView?.isScrollEnabled = true
             
-        case .Changed, .Failed, .Possible:
+        case .changed, .failed, .possible:
             break
         }
     }
     
-    dynamic func panGestureAction(gesture: UIPanGestureRecognizer) {
-        if targetTableView?.scrollEnabled == false && gesture.state == .Changed {
+    dynamic func panGestureAction(_ gesture: UIPanGestureRecognizer) {
+        if targetTableView?.isScrollEnabled == false && gesture.state == .changed {
             
-            let offsetY = gesture.translationInView(targetTableView).y
+            let offsetY = gesture.translation(in: targetTableView).y
             if offsetY < 0 {
-                draggingChanged(gesture, vertical: .Up)
+                draggingChanged(gesture, vertical: .up)
             } else if offsetY > 0 {
-                draggingChanged(gesture, vertical: .Down)
+                draggingChanged(gesture, vertical: .down)
             } else {
                 draggingChanged(gesture, vertical: nil)
             }
             
-            gesture.setTranslation(CGPoint.zero, inView: targetTableView)
+            gesture.setTranslation(CGPoint.zero, in: targetTableView)
         }
     }
 }
 
 // MARK: - UIGestureRecognizerDelegate Methods
 extension TableViewDragger: UIGestureRecognizerDelegate {
-    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if gestureRecognizer == longPressGesture {
-            let point = touch.locationInView(targetTableView)
+            let point = touch.location(in: targetTableView)
             
-            if let indexPath = targetTableView?.indexPathForRowAtPoint(point) {
+            if let indexPath = targetTableView?.indexPathForRow(at: point) {
                 if let ret = delegate?.dragger?(self, shouldDragAtIndexPath: indexPath) {
                     return ret
                 }
@@ -311,14 +311,14 @@ extension TableViewDragger: UIGestureRecognizerDelegate {
         return true
     }
     
-    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer == panGesture || otherGestureRecognizer == panGesture || gestureRecognizer == longPressGesture || otherGestureRecognizer == longPressGesture
     }
 }
 
 extension UIScrollView {
     enum DragMotion {
-        case Up
-        case Down
+        case up
+        case down
     }
 }

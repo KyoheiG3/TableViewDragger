@@ -21,11 +21,11 @@ class DemoViewController: UIViewController {
         }
     }
     
-    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
-        return .Slide
+    override var preferredStatusBarUpdateAnimation : UIStatusBarAnimation {
+        return .slide
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return statusBarHidden
     }
     
@@ -46,21 +46,21 @@ class DemoViewController: UIViewController {
 }
 
 extension DemoViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return imageNames.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("DemoTableViewCell", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DemoTableViewCell", for: indexPath)
         if let demoCell = cell as? DemoTableViewCell {
-            demoCell.demoImageView.image = UIImage(named: imageNames[indexPath.row])
+            demoCell.demoImageView.image = UIImage(named: imageNames[(indexPath as NSIndexPath).row])
         }
         
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if let image = UIImage(named: imageNames[indexPath.row]) {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let image = UIImage(named: imageNames[(indexPath as NSIndexPath).row]) {
             return image.size.height + 40
         }
         
@@ -69,22 +69,22 @@ extension DemoViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelegate {
-    func dragger(dragger: TableViewDragger, moveDraggingAtIndexPath indexPath: NSIndexPath, newIndexPath: NSIndexPath) -> Bool {
-        swap(&imageNames[indexPath.row], &imageNames[newIndexPath.row])
+    func dragger(_ dragger: TableViewDragger, moveDraggingAtIndexPath indexPath: IndexPath, newIndexPath: IndexPath) -> Bool {
+        swap(&imageNames[(indexPath as NSIndexPath).row], &imageNames[(newIndexPath as NSIndexPath).row])
         
-        tableView.moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
+        tableView.moveRow(at: indexPath, to: newIndexPath)
         
         return true
     }
     
-    func dragger(dragger: TableViewDragger, willBeginDraggingAtIndexPath indexPath: NSIndexPath) {
+    func dragger(_ dragger: TableViewDragger, willBeginDraggingAtIndexPath indexPath: IndexPath) {
         if let tableView = dragger.tableView {
             let scale = min(max(tableView.bounds.height / tableView.contentSize.height, 0.4), 1)
             dragger.scrollVelocity = scale
             
             tableViewHeightConstraint.constant = (tableView.bounds.height) / scale - tableView.bounds.height
             
-            UIView.animateWithDuration(0.3) {
+            UIView.animate(withDuration: 0.3) {
                 self.statusBarHidden = true
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
                 
@@ -92,16 +92,16 @@ extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelega
                     self.tabBarController?.tabBar.frame.origin.y += tabBarHeight
                 }
                 
-                tableView.transform = CGAffineTransformMakeScale(scale, scale)
+                tableView.transform = CGAffineTransform(scaleX: scale, y: scale)
                 self.view.layoutIfNeeded()
-            }
+            } 
         }
     }
     
-    func dragger(dragger: TableViewDragger, willEndDraggingAtIndexPath indexPath: NSIndexPath) {
+    func dragger(_ dragger: TableViewDragger, willEndDraggingAtIndexPath indexPath: IndexPath) {
         tableViewHeightConstraint.constant = 0
         
-        UIView.animateWithDuration(0.30) {
+        UIView.animate(withDuration: 0.3) {
             self.statusBarHidden = false
             self.navigationController?.setNavigationBarHidden(false, animated: false)
             
@@ -110,9 +110,9 @@ extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelega
             }
             
             if let tableView = dragger.tableView {
-                tableView.transform = CGAffineTransformIdentity
+                tableView.transform = CGAffineTransform.identity
                 self.view.layoutIfNeeded()
-                tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
+                tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             }
         }
     }
