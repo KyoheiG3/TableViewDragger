@@ -10,9 +10,9 @@ import UIKit
 
 extension UIScrollView {
     struct ScrollRect {
-        private let maxScrollDistance: CGFloat = 10
+        fileprivate let maxScrollDistance: CGFloat = 10
         
-        private let rect: CGRect
+        fileprivate let rect: CGRect
         let top: CGRect
         let bottom: CGRect
         let scrollRange: CGFloat
@@ -26,11 +26,11 @@ extension UIScrollView {
             bottom = CGRect(origin: CGPoint(x: inRect.origin.x, y: inRect.size.height - scrollRange), size: size)
         }
         
-        func scrollDistance(point: CGPoint) -> CGFloat {
+        func scrollDistance(_ point: CGPoint) -> CGFloat {
             let ratio: CGFloat
-            if CGRectContainsPoint(top, point) {
+            if top.contains(point) {
                 ratio = -(scrollRange - point.y)
-            } else if CGRectContainsPoint(bottom, point) {
+            } else if bottom.contains(point) {
                 ratio = point.y - (rect.height - scrollRange)
             } else {
                 ratio = 0
@@ -40,7 +40,7 @@ extension UIScrollView {
         }
     }
     
-    func adjustContentOffset(distance: CGFloat) -> CGPoint {
+    func adjustContentOffset(_ distance: CGFloat) -> CGPoint {
         var offset = contentOffset
         offset.y += distance
         
@@ -57,7 +57,7 @@ extension UIScrollView {
         return offset
     }
     
-    func autoScrollMotion(@autoclosure point: () -> CGPoint) -> DragMotion? {
+    func autoScrollMotion(_ point: @autoclosure () -> CGPoint) -> DragMotion? {
         let contentHeight = floor(contentSize.height)
         if bounds.size.height >= contentHeight {
             return nil
@@ -66,15 +66,15 @@ extension UIScrollView {
         let scrollRect = ScrollRect(inRect: bounds)
         let point = point()
         
-        if CGRectContainsPoint(scrollRect.top, point) {
+        if scrollRect.top.contains(point) {
             let topOffset = -contentInset.top
             if contentOffset.y > topOffset {
-                return .Up
+                return .up
             }
-        } else if CGRectContainsPoint(scrollRect.bottom, point) {
+        } else if scrollRect.bottom.contains(point) {
             let bottomOffset = contentHeight + contentInset.bottom - bounds.size.height
             if contentOffset.y < bottomOffset {
-                return .Down
+                return .down
             }
         }
         
