@@ -9,75 +9,50 @@
 import UIKit
 
 extension UIScrollView {
-    struct ScrollRect {
-        fileprivate let maxScrollDistance: CGFloat = 10
-        
-        fileprivate let rect: CGRect
-        let top: CGRect
-        let bottom: CGRect
-        let scrollRange: CGFloat
-        
-        init(inRect: CGRect) {
-            rect = inRect
-            scrollRange = inRect.size.height / 2.5
-            
-            let size = CGSize(width: inRect.width, height: scrollRange + inRect.origin.y)
-            top = CGRect(origin: CGPoint(x: inRect.origin.x, y: -inRect.origin.y), size: size)
-            bottom = CGRect(origin: CGPoint(x: inRect.origin.x, y: inRect.size.height - scrollRange), size: size)
-        }
-        
-        func scrollDistance(_ point: CGPoint) -> CGFloat {
-            let ratio: CGFloat
-            if top.contains(point) {
-                ratio = -(scrollRange - point.y)
-            } else if bottom.contains(point) {
-                ratio = point.y - (rect.height - scrollRange)
-            } else {
-                ratio = 0
-            }
-            
-            return max(min(ratio / 30, maxScrollDistance), -maxScrollDistance)
-        }
+    enum DraggingDirection {
+        case up
+        case down
     }
-    
-    func adjustContentOffset(_ distance: CGFloat) -> CGPoint {
+
+    func preferredContentOffset(at point: CGPoint, velocity: CGFloat) -> CGPoint {
+        let distance = ScrollRects(size: bounds.size).distance(at: point) / velocity
         var offset = contentOffset
         offset.y += distance
-        
+
         let topOffset = -contentInset.top
         let bottomOffset = contentInset.bottom
         let height = floor(contentSize.height) - bounds.size.height
-        
+
         if offset.y > height + bottomOffset {
             offset.y = height + bottomOffset
         } else if offset.y < topOffset {
             offset.y = topOffset
         }
-        
+
         return offset
     }
-    
-    func autoScrollMotion(_ point: @autoclosure () -> CGPoint) -> DragMotion? {
+
+    func draggingDirection(at point: @autoclosure () -> CGPoint) -> DraggingDirection? {
         let contentHeight = floor(contentSize.height)
         if bounds.size.height >= contentHeight {
             return nil
         }
-        
-        let scrollRect = ScrollRect(inRect: bounds)
+
+        let rects = ScrollRects(size: bounds.size)
         let point = point()
-        
-        if scrollRect.top.contains(point) {
+
+        if rects.topRect.contains(point) {
             let topOffset = -contentInset.top
             if contentOffset.y > topOffset {
                 return .up
             }
-        } else if scrollRect.bottom.contains(point) {
+        } else if rects.bottomRect.contains(point) {
             let bottomOffset = contentHeight + contentInset.bottom - bounds.size.height
             if contentOffset.y < bottomOffset {
                 return .down
             }
         }
-        
+
         return nil
     }
 }

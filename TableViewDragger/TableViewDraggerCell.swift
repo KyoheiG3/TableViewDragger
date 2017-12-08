@@ -9,12 +9,12 @@
 import UIKit
 
 class TableViewDraggerCell: UIScrollView {
-    fileprivate let zoomingView: UIView!
-    
+    private let zoomingView: UIView!
+
     var dragAlpha: CGFloat = 1
     var dragScale: CGFloat = 1
     var dragShadowOpacity: Float = 0.4
-    
+
     var dropIndexPath: IndexPath = IndexPath(index: 0)
     var offset: CGPoint = CGPoint.zero {
         didSet {
@@ -31,56 +31,56 @@ class TableViewDraggerCell: UIScrollView {
     var viewHeight: CGFloat {
         return zoomingView.bounds.height * zoomScale
     }
-    
+
     private func adjustCenter(_ center: CGPoint) -> CGPoint {
         var center = center
         center.x -= offset.x
         center.y -= offset.y
         return center
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         zoomingView = UIView(frame: CGRect.zero)
         super.init(coder: aDecoder)
     }
-    
+
     init(cell: UITableViewCell) {
-        cell.frame.origin = CGPoint.zero
+        cell.frame.origin = .zero
         cell.contentView.alpha = 1
-        
+
         zoomingView = UIView(frame: cell.frame)
         zoomingView.addSubview(cell)
-        
+
         super.init(frame: cell.frame)
-        
+
         delegate = self
         clipsToBounds = false
-        
+
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0
         layer.shadowRadius = 5
-        layer.shadowOffset = CGSize.zero
-        
+        layer.shadowOffset = .zero
+
         addSubview(zoomingView)
     }
-    
+
     func transformToPoint(_ point: CGPoint) {
         if dragScale > 1 {
             maximumZoomScale = dragScale
         } else {
             minimumZoomScale = dragScale
         }
-        
+
         var center = zoomingView.center
         center.x -= (center.x * dragScale) - point.x
         center.y -= (center.y * dragScale) - point.y
-        
+
         UIView.animate(withDuration: 0.25, delay: 0.1, options: .curveEaseInOut, animations: {
             self.zoomingView.center = center
             self.zoomScale = self.dragScale
             self.alpha = self.dragAlpha
-            }, completion: nil)
-        
+        }, completion: nil)
+
         CATransaction.begin()
         let anim = CABasicAnimation(keyPath: "shadowOpacity")
         anim.fromValue = 0
@@ -91,14 +91,14 @@ class TableViewDraggerCell: UIScrollView {
         layer.add(anim, forKey: "cellDragAnimation")
         CATransaction.commit()
     }
-    
-    func absoluteCenterForScrollView(_ scrollView: UIScrollView) -> CGPoint {
+
+    func adjustedCenter(on scrollView: UIScrollView) -> CGPoint {
         var center = location
         center.y -= scrollView.contentOffset.y
         center.x = scrollView.center.x
         return center
     }
-    
+
     func drop(_ center: CGPoint, completion: (() -> Void)? = nil) {
         UIView.animate(withDuration: 0.25) {
             self.zoomingView.adjustCenterAtRect(self.zoomingView.frame)
@@ -106,7 +106,7 @@ class TableViewDraggerCell: UIScrollView {
             self.zoomScale = 1.0
             self.alpha = 1.0
         }
-        
+
         CATransaction.begin()
         let anim = CABasicAnimation(keyPath: "shadowOpacity")
         anim.fromValue = dragShadowOpacity
@@ -117,7 +117,7 @@ class TableViewDraggerCell: UIScrollView {
         anim.fillMode = kCAFillModeForwards
         CATransaction.setCompletionBlock {
             self.removeFromSuperview()
-            
+
             completion?()
         }
         layer.add(anim, forKey: "cellDropAnimation")
