@@ -15,6 +15,7 @@
 		C70E29191BE47E2C00D33FEC /* DemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70E29171BE47E2C00D33FEC /* DemoTableViewCell.swift */; };
 		C70E291A1BE47E2C00D33FEC /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70E29181BE47E2C00D33FEC /* DemoViewController.swift */; };
 		C70E291C1BE47E3A00D33FEC /* TableViewDragger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C70E290E1BE47D1A00D33FEC /* TableViewDragger.framework */; };
+		C79EE0391FDA73DF00C75156 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79EE0381FDA73DF00C75156 /* TableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		C70E29091BE47D1A00D33FEC /* TableViewDragger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TableViewDragger.xcodeproj; path = ../TableViewDragger.xcodeproj; sourceTree = "<group>"; };
 		C70E29171BE47E2C00D33FEC /* DemoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTableViewCell.swift; sourceTree = "<group>"; };
 		C70E29181BE47E2C00D33FEC /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		C79EE0381FDA73DF00C75156 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				C70E28E91BE47CCC00D33FEC /* AppDelegate.swift */,
 				C70E29171BE47E2C00D33FEC /* DemoTableViewCell.swift */,
 				C70E29181BE47E2C00D33FEC /* DemoViewController.swift */,
+				C79EE0381FDA73DF00C75156 /* TableViewController.swift */,
 				C70E28EB1BE47CCC00D33FEC /* ViewController.swift */,
 				C70E28ED1BE47CCC00D33FEC /* Main.storyboard */,
 				C70E28F01BE47CCC00D33FEC /* Assets.xcassets */,
@@ -183,6 +186,7 @@
 				C70E29191BE47E2C00D33FEC /* DemoTableViewCell.swift in Sources */,
 				C70E28EC1BE47CCC00D33FEC /* ViewController.swift in Sources */,
 				C70E28EA1BE47CCC00D33FEC /* AppDelegate.swift in Sources */,
+				C79EE0391FDA73DF00C75156 /* TableViewController.swift in Sources */,
 				C70E291A1BE47E2C00D33FEC /* DemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,7 +307,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.TableViewDraggerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -315,7 +319,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.TableViewDraggerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
