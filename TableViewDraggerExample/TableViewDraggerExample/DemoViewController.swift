@@ -35,7 +35,7 @@ class DemoViewController: UIViewController {
         dragger = TableViewDragger(tableView: tableView)
         dragger.dataSource = self
         dragger.delegate = self
-        dragger.cellAlpha = 0.7
+        dragger.alphaForCell = 0.7
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,14 +53,14 @@ extension DemoViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DemoTableViewCell", for: indexPath)
         if let demoCell = cell as? DemoTableViewCell {
-            demoCell.demoImageView.image = UIImage(named: imageNames[(indexPath as NSIndexPath).row])
+            demoCell.demoImageView.image = UIImage(named: imageNames[indexPath.row])
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let image = UIImage(named: imageNames[(indexPath as NSIndexPath).row]) {
+        if let image = UIImage(named: imageNames[indexPath.row]) {
             return image.size.height + 40
         }
         
@@ -69,15 +69,17 @@ extension DemoViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelegate {
-    func dragger(_ dragger: TableViewDragger, moveDraggingAtIndexPath indexPath: IndexPath, newIndexPath: IndexPath) -> Bool {
-        swap(&imageNames[(indexPath as NSIndexPath).row], &imageNames[(newIndexPath as NSIndexPath).row])
-        
+    func dragger(_ dragger: TableViewDragger, moveDraggingAt indexPath: IndexPath, newIndexPath: IndexPath) -> Bool {
+        let iamgeName = imageNames[indexPath.row]
+        imageNames.remove(at: indexPath.row)
+        imageNames.insert(iamgeName, at: newIndexPath.row)
+
         tableView.moveRow(at: indexPath, to: newIndexPath)
-        
+
         return true
     }
     
-    func dragger(_ dragger: TableViewDragger, willBeginDraggingAtIndexPath indexPath: IndexPath) {
+    func dragger(_ dragger: TableViewDragger, willBeginDraggingAt indexPath: IndexPath) {
         if let tableView = dragger.tableView {
             let scale = min(max(tableView.bounds.height / tableView.contentSize.height, 0.4), 1)
             dragger.scrollVelocity = scale
@@ -98,7 +100,7 @@ extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelega
         }
     }
     
-    func dragger(_ dragger: TableViewDragger, willEndDraggingAtIndexPath indexPath: IndexPath) {
+    func dragger(_ dragger: TableViewDragger, willEndDraggingAt indexPath: IndexPath) {
         tableViewHeightConstraint.constant = 0
         
         UIView.animate(withDuration: 0.3) {
