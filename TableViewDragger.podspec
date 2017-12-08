@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TableViewDragger"
-  s.version      = "0.2.0"
+  s.version      = "1.0.0"
   s.summary      = "A cells of UITableView can be rearranged by drag and drop."
   s.homepage     = "https://github.com/KyoheiG3/TableViewDragger"
   s.license      = { :type => "MIT", :file => "LICENSE" }
