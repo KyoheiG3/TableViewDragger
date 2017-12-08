@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C79EE0361FDA6A1700C75156 /* ScrollRects.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79EE0351FDA6A1700C75156 /* ScrollRects.swift */; };
 		C7AC952E1BB4166F0044E1BA /* TableViewDragger.h in Headers */ = {isa = PBXBuildFile; fileRef = C7AC952D1BB4166F0044E1BA /* TableViewDragger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C7AC95361BB416810044E1BA /* TableViewDragger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95351BB416810044E1BA /* TableViewDragger.swift */; };
 		C7AC95381BB417660044E1BA /* TableViewDraggerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AC95371BB417660044E1BA /* TableViewDraggerCell.swift */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C79EE0351FDA6A1700C75156 /* ScrollRects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollRects.swift; sourceTree = "<group>"; };
 		C7AC952A1BB4166F0044E1BA /* TableViewDragger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TableViewDragger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7AC952D1BB4166F0044E1BA /* TableViewDragger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewDragger.h; sourceTree = "<group>"; };
 		C7AC952F1BB4166F0044E1BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 		C7AC952C1BB4166F0044E1BA /* TableViewDragger */ = {
 			isa = PBXGroup;
 			children = (
+				C79EE0351FDA6A1700C75156 /* ScrollRects.swift */,
 				C7AC952D1BB4166F0044E1BA /* TableViewDragger.h */,
 				C7AC95351BB416810044E1BA /* TableViewDragger.swift */,
 				C7AC95371BB417660044E1BA /* TableViewDraggerCell.swift */,
@@ -141,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C79EE0361FDA6A1700C75156 /* ScrollRects.swift in Sources */,
 				C7AC95381BB417660044E1BA /* TableViewDraggerCell.swift in Sources */,
 				C7AC95361BB416810044E1BA /* TableViewDragger.swift in Sources */,
 				C7E9476F1BB9A75500A89906 /* UIScrollViewExtension.swift in Sources */,
@@ -254,7 +258,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -272,7 +276,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.TableViewDragger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
