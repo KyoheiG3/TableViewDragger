@@ -40,18 +40,15 @@ class TableViewDraggerCell: UIScrollView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        zoomingView = UIView(frame: CGRect.zero)
+        zoomingView = UIView(frame: .zero)
         super.init(coder: aDecoder)
     }
 
-    init(cell: UITableViewCell) {
-        cell.frame.origin = .zero
-        cell.contentView.alpha = 1
-
-        zoomingView = UIView(frame: cell.frame)
+    init(cell: UIView) {
+        zoomingView = UIView(frame: cell.bounds)
         zoomingView.addSubview(cell)
 
-        super.init(frame: cell.frame)
+        super.init(frame: cell.bounds)
 
         delegate = self
         clipsToBounds = false

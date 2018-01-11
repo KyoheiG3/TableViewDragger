@@ -84,8 +84,7 @@ extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelega
             let scale = min(max(tableView.bounds.height / tableView.contentSize.height, 0.4), 1)
             dragger.scrollVelocity = scale
             
-            tableViewHeightConstraint.constant = (tableView.bounds.height) / scale - tableView.bounds.height
-            
+
             UIView.animate(withDuration: 0.3) {
                 self.statusBarHidden = true
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -94,6 +93,7 @@ extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelega
                     self.tabBarController?.tabBar.frame.origin.y += tabBarHeight
                 }
                 
+                self.tableViewHeightConstraint.constant = (tableView.bounds.height) / scale - tableView.bounds.height
                 tableView.transform = CGAffineTransform(scaleX: scale, y: scale)
                 self.view.layoutIfNeeded()
             } 
@@ -101,8 +101,7 @@ extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelega
     }
     
     func dragger(_ dragger: TableViewDragger, willEndDraggingAt indexPath: IndexPath) {
-        tableViewHeightConstraint.constant = 0
-        
+
         UIView.animate(withDuration: 0.3) {
             self.statusBarHidden = false
             self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -111,6 +110,7 @@ extension DemoViewController: TableViewDraggerDataSource, TableViewDraggerDelega
                 self.tabBarController?.tabBar.frame.origin.y -= tabBarHeight
             }
             
+            self.tableViewHeightConstraint.constant = 0
             if let tableView = dragger.tableView {
                 tableView.transform = CGAffineTransform.identity
                 self.view.layoutIfNeeded()

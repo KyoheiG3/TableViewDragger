@@ -22,7 +22,7 @@ import UIKit
 
 @objc public protocol TableViewDraggerDataSource: class {
     /// Return any cell if want to change the cell in drag.
-    @objc optional func dragger(_ dragger: TableViewDragger, cellForRowAt indexPath: IndexPath) -> UITableViewCell?
+    @objc optional func dragger(_ dragger: TableViewDragger, cellForRowAt indexPath: IndexPath) -> UIView?
     /// Return the indexPath if want to change the indexPath to start drag.
     @objc optional func dragger(_ dragger: TableViewDragger, indexPathForDragAt indexPath: IndexPath) -> IndexPath
 }
@@ -123,33 +123,20 @@ open class TableViewDragger: NSObject {
         }
     }
 
-    func copiedCell(at indexPath: IndexPath, retryCount: Int) -> UITableViewCell? {
-        var cell = dataSource?.dragger?(self, cellForRowAt: indexPath)
-        if cell == nil, let tableView = targetTableView {
-            cell = tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
-        }
-
-        if cell?.isHidden == true {
-            if retryCount > 10 {
-                return nil
-            }
-            // retry
-            return copiedCell(at: indexPath, retryCount: retryCount + 1)
-        }
-
-        return cell
+    func copiedCell(at indexPath: IndexPath) -> UIView? {
+        return dataSource?.dragger?(self, cellForRowAt: indexPath) ?? targetTableView?.cellForRow(at: indexPath)?.snapshotView(afterScreenUpdates: false)
     }
 
     func draggedCell(_ tableView: UITableView, indexPath: IndexPath) -> TableViewDraggerCell? {
-        guard let copiedCell = copiedCell(at: indexPath, retryCount: 0) else {
+        guard let copiedCell = copiedCell(at: indexPath) else {
             return nil
         }
 
         let cellRect = tableView.rectForRow(at: indexPath)
-        copiedCell.bounds.size = cellRect.size
+        copiedCell.frame.size = cellRect.size
 
         if let height = tableView.delegate?.tableView?(tableView, heightForRowAt: indexPath) {
-            copiedCell.bounds.size.height = height
+            copiedCell.frame.size.height = height
         }
 
         let cell = TableViewDraggerCell(cell: copiedCell)
@@ -175,7 +162,6 @@ extension TableViewDragger {
 
         if let tableView = targetTableView {
             let actualCell = tableView.cellForRow(at: dragIndexPath)
-            actualCell?.isHidden = isHiddenOriginCell
 
             if let draggedCell = draggedCell(tableView, indexPath: dragIndexPath) {
                 let point = gesture.location(in: actualCell)
@@ -187,6 +173,7 @@ extension TableViewDragger {
                 draggingCell = draggedCell
             }
 
+            actualCell?.isHidden = isHiddenOriginCell
             targetClipsToBounds = tableView.clipsToBounds
             tableView.clipsToBounds = false
         }
