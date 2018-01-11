@@ -88,7 +88,7 @@ init(tableView: UITableView)
 ### TableViewDraggerDataSource Function
 
 ```swift
-optional func dragger(_ dragger: TableViewDragger, cellForRowAt indexPath: IndexPath) -> UITableViewCell?
+optional func dragger(_ dragger: TableViewDragger, cellForRowAt indexPath: IndexPath) -> UIView?
 ```
 * Return any cell if want to change the cell in drag.
 
