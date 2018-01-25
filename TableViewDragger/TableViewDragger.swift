@@ -53,7 +53,7 @@ open class TableViewDragger: NSObject {
     }
 
     /// `UITableView` want to drag.
-    public init(tableView: UITableView) {
+    public init(tableView: UITableView, _ minimumPressDuration: CFTimeInterval = 0.5) {
         super.init()
 
         self.targetTableView = tableView
@@ -63,6 +63,7 @@ open class TableViewDragger: NSObject {
         longPressGesture.addTarget(self, action: #selector(TableViewDragger.longPressGestureAction(_:)))
         longPressGesture.delegate = self
         longPressGesture.allowableMovement = 5.0
+        longPressGesture.minimumPressDuration = minimumPressDuration
 
         panGesture.addTarget(self, action: #selector(TableViewDragger.panGestureAction(_:)))
         panGesture.delegate = self
