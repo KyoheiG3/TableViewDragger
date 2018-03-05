@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C70211C6204DA7A700DD04A1 /* TableViewDragger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C70E290E1BE47D1A00D33FEC /* TableViewDragger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C70E28EA1BE47CCC00D33FEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70E28E91BE47CCC00D33FEC /* AppDelegate.swift */; };
 		C70E28EC1BE47CCC00D33FEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70E28EB1BE47CCC00D33FEC /* ViewController.swift */; };
 		C70E28EF1BE47CCC00D33FEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70E28ED1BE47CCC00D33FEC /* Main.storyboard */; };
@@ -19,6 +20,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C70211C7204DA7A700DD04A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C70E29091BE47D1A00D33FEC /* TableViewDragger.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C7AC95291BB4166F0044E1BA;
+			remoteInfo = TableViewDragger;
+		};
 		C70E290D1BE47D1A00D33FEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C70E29091BE47D1A00D33FEC /* TableViewDragger.xcodeproj */;
@@ -27,6 +35,20 @@
 			remoteInfo = TableViewDragger;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C70211C9204DA7A700DD04A1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C70211C6204DA7A700DD04A1 /* TableViewDragger.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C70E28E61BE47CCC00D33FEC /* TableViewDraggerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableViewDraggerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,10 +127,12 @@
 				C70E28E21BE47CCC00D33FEC /* Sources */,
 				C70E28E31BE47CCC00D33FEC /* Frameworks */,
 				C70E28E41BE47CCC00D33FEC /* Resources */,
+				C70211C9204DA7A700DD04A1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C70211C8204DA7A700DD04A1 /* PBXTargetDependency */,
 			);
 			name = TableViewDraggerExample;
 			productName = TableViewDraggerExample;
@@ -192,6 +216,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C70211C8204DA7A700DD04A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TableViewDragger;
+			targetProxy = C70211C7204DA7A700DD04A1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C70E28ED1BE47CCC00D33FEC /* Main.storyboard */ = {
@@ -302,6 +334,7 @@
 		C70E29041BE47CCC00D33FEC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TableViewDraggerExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -314,6 +347,7 @@
 		C70E29051BE47CCC00D33FEC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TableViewDraggerExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
