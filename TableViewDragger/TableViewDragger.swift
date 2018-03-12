@@ -104,6 +104,14 @@ open class TableViewDragger: NSObject {
                     return targetIndexPath
                 }
             }
+        } else {
+            let section = (0..<tableView.numberOfSections).filter { section -> Bool in
+                tableView.rect(forSection: section).contains(point)
+            }.first
+
+            if let section = section, tableView.numberOfRows(inSection: section) == 0 {
+                return IndexPath(row: 0, section: section)
+            }
         }
 
         return draggingCell.dropIndexPath
