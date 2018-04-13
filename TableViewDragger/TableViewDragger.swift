@@ -132,7 +132,7 @@ open class TableViewDragger: NSObject {
     }
 
     func copiedCell(at indexPath: IndexPath) -> UIView? {
-        return dataSource?.dragger?(self, cellForRowAt: indexPath) ?? targetTableView?.cellForRow(at: indexPath)?.snapshotView(afterScreenUpdates: false)
+        return dataSource?.dragger?(self, cellForRowAt: indexPath) ?? targetTableView?.cellForRow(at: indexPath)?.snapshotView(afterScreenUpdates: true)
     }
 
     func draggedCell(_ tableView: UITableView, indexPath: IndexPath) -> TableViewDraggerCell? {
