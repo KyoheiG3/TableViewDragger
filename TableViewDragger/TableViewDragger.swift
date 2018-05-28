@@ -175,7 +175,6 @@ extension TableViewDragger {
 
             if let draggedCell = draggedCell(tableView, indexPath: dragIndexPath) {
                 let point = gesture.location(in: actualCell)
-                draggedCell.location = gesture.location(in: tableView)
                 
                 if availableHorizontalScroll == true{
                     
