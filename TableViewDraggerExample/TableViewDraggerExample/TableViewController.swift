@@ -18,7 +18,7 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
 
         dragger = TableViewDragger(tableView: tableView)
-        dragger.availableHorizontalScroll = false
+        dragger.availableHorizontalScroll = true
         dragger.dataSource = self
         dragger.delegate = self
         dragger.alphaForCell = 0.7

@@ -184,9 +184,9 @@ extension TableViewDragger {
                     
                 } else {
                     
-                    draggedCell.offset = CGPoint(x: (actualCell?.frame.size.width)!/2, y: point.y)
-                    draggedCell.transformToPoint(CGPoint(x: (actualCell?.frame.size.width)!/2, y: point.y))
-                    draggedCell.location = CGPoint(x: (actualCell?.frame.size.width)!/2, y: gesture.location(in: tableView).y)
+                    draggedCell.offset = CGPoint(x: (draggedCell.frame.size.width)/2, y: point.y)
+                    draggedCell.transformToPoint(CGPoint(x: (draggedCell.frame.size.width)/2, y: point.y))
+                    draggedCell.location = CGPoint(x: (draggedCell.frame.size.width)/2, y: gesture.location(in: tableView).y)
                     
                 }
                 
