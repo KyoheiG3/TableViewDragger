@@ -134,7 +134,20 @@ open class TableViewDragger: NSObject {
     }
 
     func copiedCell(at indexPath: IndexPath) -> UIView? {
-        return dataSource?.dragger?(self, cellForRowAt: indexPath) ?? targetTableView?.cellForRow(at: indexPath)?.snapshotView(afterScreenUpdates: false)
+        if let view = dataSource?.dragger?(self, cellForRowAt: indexPath) {
+            return view
+        }
+
+        if let cell = targetTableView?.cellForRow(at: indexPath) {
+            if let view = cell.snapshotView(afterScreenUpdates: false) {
+                return view
+            } else if let view = cell.captured() {
+                view.frame = cell.bounds
+                return view
+            }
+        }
+
+        return nil
     }
 
     func draggedCell(_ tableView: UITableView, indexPath: IndexPath) -> TableViewDraggerCell? {
@@ -341,5 +354,12 @@ extension TableViewDragger: UIGestureRecognizerDelegate {
 
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer == panGesture || otherGestureRecognizer == panGesture || gestureRecognizer == longPressGesture || otherGestureRecognizer == longPressGesture
+    }
+}
+
+extension UIView {
+    fileprivate func captured() -> UIView? {
+        let data = NSKeyedArchiver.archivedData(withRootObject: self)
+        return NSKeyedUnarchiver.unarchiveObject(with: data) as? UIView
     }
 }
