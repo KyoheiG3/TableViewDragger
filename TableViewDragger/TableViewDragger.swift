@@ -48,6 +48,8 @@ open class TableViewDragger: NSObject {
     open var scrollVelocity: CGFloat = 1
     open weak var delegate: TableViewDraggerDelegate?
     open weak var dataSource: TableViewDraggerDataSource?
+    //
+    open var availableHorizontalScroll : Bool = true
     open var tableView: UITableView? {
         return targetTableView
     }
@@ -173,11 +175,22 @@ extension TableViewDragger {
 
             if let draggedCell = draggedCell(tableView, indexPath: dragIndexPath) {
                 let point = gesture.location(in: actualCell)
-                draggedCell.offset = point
-                draggedCell.transformToPoint(point)
-                draggedCell.location = gesture.location(in: tableView)
+                
+                if availableHorizontalScroll == true{
+                    
+                    draggedCell.offset = point
+                    draggedCell.transformToPoint(point)
+                    draggedCell.location = gesture.location(in: tableView)
+                    
+                } else {
+                    
+                    draggedCell.offset = CGPoint(x: (draggedCell.frame.size.width)/2, y: point.y)
+                    draggedCell.transformToPoint(CGPoint(x: (draggedCell.frame.size.width)/2, y: point.y))
+                    draggedCell.location = CGPoint(x: (draggedCell.frame.size.width)/2, y: gesture.location(in: tableView).y)
+                    
+                }
+                
                 tableView.addSubview(draggedCell)
-
                 draggingCell = draggedCell
             }
 
@@ -193,15 +206,24 @@ extension TableViewDragger {
         guard let tableView = targetTableView, let draggingCell = draggingCell else {
             return
         }
-
-        draggingCell.location = gesture.location(in: tableView)
-
+        
+        if availableHorizontalScroll == true{
+            
+            draggingCell.location = gesture.location(in: tableView)
+            
+        } else {
+            
+            draggingCell.location = CGPoint(x: (draggingCell.frame.size.width)/2, y: gesture.location(in: tableView).y)
+        }
+        
+        
         if let adjustedDirection = tableView.draggingDirection(at: draggingCell.adjustedCenter(on: tableView)) {
             displayLink?.isPaused = false
             draggingDirection = adjustedDirection
         } else {
             draggingDirection = direction
         }
+        
 
         dragCell(tableView, draggingCell: draggingCell)
     }
@@ -251,8 +273,15 @@ private extension TableViewDragger {
         tableView.contentOffset = tableView.preferredContentOffset(at: center, velocity: scrollVelocity)
 
         dragCell(tableView, draggingCell: draggingCell)
-
-        draggingCell.location = panGesture.location(in: tableView)
+        
+        if availableHorizontalScroll == true{
+            
+            draggingCell.location = panGesture.location(in: tableView)
+        } else {
+            
+            draggingCell.location = CGPoint(x: draggingCell.frame.size.width/2, y: panGesture.location(in: tableView).y)
+        }
+        
     }
 
     @objc func longPressGestureAction(_ gesture: UILongPressGestureRecognizer) {
