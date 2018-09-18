@@ -84,7 +84,7 @@ class TableViewDraggerCell: UIScrollView {
         anim.toValue = dragShadowOpacity
         anim.duration = 0.1
         anim.isRemovedOnCompletion = false
-        anim.fillMode = kCAFillModeForwards
+        anim.fillMode = .forwards
         layer.add(anim, forKey: "cellDragAnimation")
         CATransaction.commit()
     }
@@ -111,7 +111,7 @@ class TableViewDraggerCell: UIScrollView {
         anim.duration = 0.15
         anim.beginTime = CACurrentMediaTime() + 0.15
         anim.isRemovedOnCompletion = false
-        anim.fillMode = kCAFillModeForwards
+        anim.fillMode = .forwards
         CATransaction.setCompletionBlock {
             self.removeFromSuperview()
 

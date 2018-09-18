@@ -178,7 +178,7 @@ extension TableViewDragger {
     private func draggingDidBegin(_ gesture: UIGestureRecognizer, indexPath: IndexPath) {
         displayLink?.invalidate()
         displayLink = UIScreen.main.displayLink(withTarget: self, selector: #selector(TableViewDragger.displayDidRefresh(_:)))
-        displayLink?.add(to: .main, forMode: .defaultRunLoopMode)
+        displayLink?.add(to: .main, forMode: .default)
         displayLink?.isPaused = true
 
         let dragIndexPath = dataSource?.dragger?(self, indexPathForDragAt: indexPath) ?? indexPath
