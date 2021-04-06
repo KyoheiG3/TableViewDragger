@@ -314,6 +314,9 @@ private extension TableViewDragger {
 
         case .changed, .failed, .possible:
             break
+            
+        @unknown default:
+            break
         }
     }
 
@@ -360,7 +363,9 @@ extension TableViewDragger: UIGestureRecognizerDelegate {
 
 extension UIView {
     fileprivate func captured() -> UIView? {
-        let data = NSKeyedArchiver.archivedData(withRootObject: self)
-        return NSKeyedUnarchiver.unarchiveObject(with: data) as? UIView
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false) {
+            return try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIView.self, from: data)
+        }
+        return nil
     }
 }
