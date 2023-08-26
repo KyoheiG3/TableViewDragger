@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc public protocol TableViewDraggerDelegate: class {
+@objc public protocol TableViewDraggerDelegate: AnyObject {
     /// If allow movement of cell, please return `true`. require a call to `moveRowAt:toIndexPath:` of UITableView and rearranged of data.
     func dragger(_ dragger: TableViewDragger, moveDraggingAt indexPath: IndexPath, newIndexPath: IndexPath) -> Bool
 
@@ -20,7 +20,7 @@ import UIKit
     @objc optional func dragger(_ dragger: TableViewDragger, didEndDraggingAt indexPath: IndexPath)
 }
 
-@objc public protocol TableViewDraggerDataSource: class {
+@objc public protocol TableViewDraggerDataSource: AnyObject {
     /// Return any cell if want to change the cell in drag.
     @objc optional func dragger(_ dragger: TableViewDragger, cellForRowAt indexPath: IndexPath) -> UIView?
     /// Return the indexPath if want to change the indexPath to start drag.
