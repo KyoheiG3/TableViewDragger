@@ -13,8 +13,8 @@ This is a demo that uses a `TableViewDragger`.
 
 ## Requirements
 
-- Swift 4.2
-- iOS 8.0 or later
+- Swift 5.0
+- iOS 11.0 or later
 
 ## How to Install TableViewDragger
 
